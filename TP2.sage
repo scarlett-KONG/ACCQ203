@@ -50,7 +50,7 @@ def cherche_pivot_non_nul(M,j):
     Find the first non-zero entry in column j starting from row j.
     Returns the row index of the pivot if found, otherwise returns -1.
     """
-    for i in range(j, A.nrows()):
+    for i in range(j, M.nrows()):
         if M[i, j]!=0:
             return i
     return -1
@@ -62,7 +62,7 @@ def normalise_pivot(M,i,j):
     by dividing the entire row by the pivot element.
     """
     pivot = M[i,j]
-    for k in range(A.ncols()):
+    for k in range(M.ncols()):
         M[i, k] //= pivot #use // for integer division
 
 def annule_a_gauche(M,i,j):
@@ -73,7 +73,7 @@ def annule_a_gauche(M,i,j):
     for k in range(i):
         if M[k, j]!=0:
             multiple = M[k, j]
-            for l in range(A.ncols()):
+            for l in range(M.ncols()):
                 M[k, l] -= multiple * M[i, l]
 
 
@@ -106,9 +106,26 @@ def MyHNF(A):
         i = cherche_pivot_non_nul(H, j)
         if i != -1:
             normalise_pivot(H, i, j)
+            print("normalise_pivot")
+            print(H)
             annule_a_gauche(H, i, j)
+            print("annule_a_gauche")
+            print(H)
             reduit_a_droite(H, i, j)
-            U = U * elementary_matrix(QQ, n, row1=i, row2=j, scale=1)
+            print("reduit_a_droite")
+            print(H)
+            if i != j:
+                U = U * elementary_matrix(QQ, n, row1=i, row2=j, scale=1)
+        
+        print("H after operations:")
+        print(H)
+        print("U after operations:")
+        print(U)
+    
+    print("Final result:")
+    print(H)
+    print("A*U:")
+    print(A*U)
 
     assert(H-A*U==0)
     return H,U
@@ -129,7 +146,7 @@ def SageHNF(A):
     assert(H-A*U==0)
     return H,U
 
-H,  U  = MyHNF(A)
+H, U  = MyHNF(A)
 HH, UU = SageHNF(A)
 
 # Test a ecrire
