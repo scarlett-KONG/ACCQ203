@@ -34,7 +34,7 @@ print("""\
 # Donnees de l'enonce de l'exercice
 
 A = matrix(ZZ,[
-        [ 2, -3,  4],
+        [  2, -3,  4],
         [ 4,  4, 53]])
 
 # Code pour l'EXERCICE
